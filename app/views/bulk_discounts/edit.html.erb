@@ -1,0 +1,14 @@
+<h1> Edit <%= @discount.name %></h1>
+<h3>To edit a bulk discount please fill out ALL of the fields below.</h3>
+<br>
+<%= form_with model: [@discount] , local: true do |f| %>
+  <%= f.label :name, "Discount Name" %>
+  <p><%= f.text_field :name %></p>
+  <br>
+  <%= f.label :discount_percent, "Enter in a Discount Percent" %>
+  <p><%= f.number_field :discount_percent %></p>
+  <br>
+  <%= f.label :quantity_threshold, "Quantity Threshold" %>
+  <p><%= f.number_field :quantity_threshold %></p>
+  <%= f.submit %>
+<% end %>

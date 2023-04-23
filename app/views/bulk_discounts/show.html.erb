@@ -1,6 +1,6 @@
-<h2>Bulk Discount Name: <%= @bulk_discount.name %></h2>
+<h2>Bulk Discount Name: <%= @discount.name %></h2>
+<h3><%= link_to "Edit #{@discount.name}", edit_bulk_discount_path(@discount) %></h3>
 <br>
 <br>
-<h4>Discount Percentage: <%= @bulk_discount.discount_percent.to_i %>%</h4>
-<br>
-<h4>Quantity Threshold: <%= @bulk_discount.quantity_threshold %></h4>
+<h4>Discount Percentage: <%= @discount.discount_percent.to_i %>%</h4>
+<h4>Quantity Threshold: <%= @discount.quantity_threshold %></h4>
