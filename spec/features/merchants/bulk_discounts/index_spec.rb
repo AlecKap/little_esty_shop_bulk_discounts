@@ -10,19 +10,19 @@ RSpec.describe 'dashboard/bulk_discounts index spec'do
     it 'I see all of my bulk discounts including their percentage discount and quantity thresholds' do
       within "#bulk_discount_#{@bulk_disc1.id}" do
         expect(page).to have_content(@bulk_disc1.name)
-        expect(page).to have_content(@bulk_disc1.discount_percent)
+        expect(page).to have_content(@bulk_disc1.discount_percent * 100)
         expect(page).to have_content(@bulk_disc1.quantity_threshold)
         expect(page).to_not have_content(@bulk_disc2.name)
-        expect(page).to_not have_content(@bulk_disc2.discount_percent)
+        expect(page).to_not have_content(@bulk_disc2.discount_percent * 100)
         expect(page).to_not have_content(@bulk_disc2.quantity_threshold)
       end
       
       within "#bulk_discount_#{@bulk_disc2.id}" do
         expect(page).to have_content(@bulk_disc2.name)
-        expect(page).to have_content(@bulk_disc2.discount_percent)
+        expect(page).to have_content(@bulk_disc2.discount_percent * 100)
         expect(page).to have_content(@bulk_disc2.quantity_threshold)
         expect(page).to_not have_content(@bulk_disc1.name)
-        expect(page).to_not have_content(@bulk_disc1.discount_percent)
+        expect(page).to_not have_content(@bulk_disc1.discount_percent * 100)
         expect(page).to_not have_content(@bulk_disc1.quantity_threshold)
       end
     end
