@@ -21,11 +21,11 @@ RSpec.describe 'Bulk Dicsount edit page' do
       expect(current_path).to eq(edit_bulk_discount_path(@bulk_disc1))
       
       fill_in 'Discount Name', with: "Crazy Deals"
-      fill_in 'Discount Percent', with: 15.00
+      fill_in 'Discount Percent', with: 0.15
       fill_in 'Quantity Threshold', with: 10
       
       click_button 'Update Bulk discount'
-      
+      save_and_open_page
       expect(current_path).to eq(bulk_discount_path(@bulk_disc1))
       expect(page).to have_content("Bulk Discount Name: Crazy Deals")
       expect(page).to have_content("Discount Percentage: 15%")
