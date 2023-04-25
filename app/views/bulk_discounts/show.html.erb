@@ -2,5 +2,5 @@
 <h3><%= link_to "Edit #{@discount.name}", edit_bulk_discount_path(@discount) %></h3>
 <br>
 <br>
-<h4>Discount Percentage: <%= @discount.discount_percent.to_i %>%</h4>
+<h4>Discount Percentage: <%= (@discount.discount_percent * 100).to_i %>%</h4>
 <h4>Quantity Threshold: <%= @discount.quantity_threshold %></h4>
