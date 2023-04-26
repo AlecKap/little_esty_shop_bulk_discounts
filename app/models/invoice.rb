@@ -19,12 +19,31 @@ class Invoice < ApplicationRecord
   def total_discounted_invoice_rev(merch_id)
     total_discount_revenue = bulk_discounts.where("merchants.id = #{merch_id}")
     .select("invoice_items.*, MIN((invoice_items.quantity * invoice_items.unit_price) * 
+      case 
+        when invoice_items.quantity >= bulk_discounts.quantity_threshold 
+        then (1 - bulk_discounts.discount_percent) 
+        else 1 end) as tot_discount_revenue")
+    .group('invoice_items.id')
+    
+    total_discount_revenue.sum(&:tot_discount_revenue)
+  end
+
+  def total_admin_discounted_invoice_rev
+   bulk_discounts.select("invoice_items.*, MIN((invoice_items.quantity * invoice_items.unit_price) * 
     case 
       when invoice_items.quantity >= bulk_discounts.quantity_threshold 
       then (1 - bulk_discounts.discount_percent) 
       else 1 end) as tot_discount_revenue")
-    .group('invoice_items.id')
-    
-    total_discount_revenue.sum(&:tot_discount_revenue)
+  .group('invoice_items.id')
+  .sum(&:tot_discount_revenue)
+  end
+
+  def revenue_of_merch_no_discoutns
+    merchants.where(merchants: {active_discount: false})
+    .sum('invoice_items.quantity * invoice_items.unit_price')
+  end
+
+  def total_admin_invoice_revenue_incl_discounts
+    (self.total_admin_discounted_invoice_rev) + (self.revenue_of_merch_no_discoutns)
   end
 end
