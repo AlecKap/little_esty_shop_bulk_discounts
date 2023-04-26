@@ -15,17 +15,15 @@ class Invoice < ApplicationRecord
     invoice_items.sum("unit_price * quantity")
   end
   
-
   def total_discounted_invoice_rev(merch_id)
-    total_discount_revenue = bulk_discounts.where("merchants.id = #{merch_id}")
+    bulk_discounts.where("merchants.id = #{merch_id}")
     .select("invoice_items.*, MIN((invoice_items.quantity * invoice_items.unit_price) * 
       case 
         when invoice_items.quantity >= bulk_discounts.quantity_threshold 
         then (1 - bulk_discounts.discount_percent) 
         else 1 end) as tot_discount_revenue")
     .group('invoice_items.id')
-    
-    total_discount_revenue.sum(&:tot_discount_revenue)
+    .sum(&:tot_discount_revenue)
   end
 
   def total_admin_discounted_invoice_rev
