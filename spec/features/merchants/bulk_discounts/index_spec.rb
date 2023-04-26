@@ -28,7 +28,6 @@ RSpec.describe 'dashboard/bulk_discounts index spec'do
     end
 
     it 'each bulk discounts name links to its show page' do 
-      save_and_open_page
       within "#bulk_discount_#{@bulk_disc1.id}" do
         expect(page).to have_link "#{@bulk_disc1.name}"
         click_link "#{@bulk_disc1.name}"
