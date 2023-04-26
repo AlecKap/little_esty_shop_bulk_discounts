@@ -28,6 +28,7 @@ RSpec.describe 'dashboard/bulk_discounts index spec'do
     end
 
     it 'each bulk discounts name links to its show page' do 
+      save_and_open_page
       within "#bulk_discount_#{@bulk_disc1.id}" do
         expect(page).to have_link "#{@bulk_disc1.name}"
         click_link "#{@bulk_disc1.name}"
@@ -79,6 +80,24 @@ RSpec.describe 'dashboard/bulk_discounts index spec'do
           click_button("Delete #{@bulk_disc2.name}")
         end
         expect(page).to_not have_content(@bulk_disc2.name)
+      end
+
+      it 'I see the name and date of the next 3 upcoming US holidays' do
+        holidays = HolidayFacade.new.holiday_info
+        
+        within "#upcoming_holidays" do
+          expect(page).to have_content("Next Three Upcoming Holidays")
+          expect(page).to have_content("#{holidays[0].name}")
+          expect(page).to have_content("#{holidays[0].date}")
+          expect(page).to have_content("#{holidays[1].name}")
+          expect(page).to have_content("#{holidays[1].date}")
+          expect(page).to have_content("#{holidays[2].name}")
+          expect(page).to have_content("#{holidays[2].date}")
+        end
+
+        expect(holidays).to be_a(Array)
+        expect(holidays.first).to be_a(Holiday)
+        expect(holidays.size).to be(3)
       end
     end
   end
