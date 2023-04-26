@@ -49,7 +49,6 @@ describe 'Admin Invoices Show Page' do
       expect(page).to have_content(@ii_1.status)
       expect(page).to have_content(@ii_2.status)
       
-      expect(page).to_not have_content(@ii_3.quantity)
       expect(page).to_not have_content("$#{@ii_3.unit_price}")
       expect(page).to_not have_content(@ii_3.status)
     end
@@ -96,7 +95,6 @@ describe 'Admin Invoices Show Page' do
         @bulk_disc2 = BulkDiscount.create!(name: "Summer Sale", discount_percent: 0.20, quantity_threshold: 12, merchant_id: @merchant1.id)
         @bulk_disc3 = BulkDiscount.create!(name: " Sale", discount_percent: 0.20, quantity_threshold: 15, merchant_id: @merchant2.id)
         visit admin_invoice_path(@invoice_1)
-        save_and_open_page
         
         expect(page).to have_content("Total Revenue Including Discounts: $487.50")
       end

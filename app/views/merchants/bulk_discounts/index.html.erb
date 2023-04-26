@@ -15,3 +15,14 @@
     <% end %>
   </ul>
 </section>
+<br>
+<section id="upcoming_holidays">
+  <h3>Next Three Upcoming Holidays</h3>
+  <% @holidays.each do |holiday| %>
+  <div id="holiday_<%= holiday.name %>">
+    <p>Holiday: <%= holiday.name %></p>
+    <p>Date of holiday: <%= holiday.date %></p>
+    <br>
+    </div>
+  <% end %>
+</section>
