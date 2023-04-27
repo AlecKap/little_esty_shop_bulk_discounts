@@ -43,5 +43,30 @@ RSpec.describe 'merchants bulk discounts new page' do
       expect(page).to have_button("Create Bulk Discount")
       expect(page).to have_content("Please fill in all fields, did you not read?")
     end
+
+    it 'merchant has defualt active discount status of false until discount is created
+     and when that discount is deleted, the status changes to true' do
+      merchant = Merchant.create!(name: "merchguy")
+      visit new_merchant_bulk_discount_path(merchant)
+
+      expect(merchant.active_discount).to eq(false)
+      
+      fill_in 'Discount Name', with: "Summer Super Savings Sale"
+      fill_in 'Enter in a Discount Percent in the form of a float', with: 15.00
+      fill_in 'Quantity Threshold', with: 10
+      
+      click_button 'Create Bulk Discount'
+      
+      expect(current_path).to eq(merchant_bulk_discounts_path(merchant))
+      merchant.reload
+      expect(merchant.active_discount).to eq(true)
+      
+      click_button "Delete Summer Super Savings Sale"
+      
+      expect(current_path).to eq(merchant_bulk_discounts_path(merchant))
+      merchant.reload
+      expect(merchant.active_discount).to eq(false)
+
+    end
   end
 end
